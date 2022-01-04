@@ -1,0 +1,21 @@
+\documentclass{ctexart}
+\usepackage{tikz}
+\definecolor{SpringGreen}{RGB}{0, 238, 118}
+\begin{document}
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[SpringGreen](current page.south west) rectangle (current page.north east);
+      \draw[color=-SpringGreen,line width=3pt] ([shift={(-0.25\paperwidth,0.26\paperheight)}]current page.center)--([shift={(0.25\paperwidth,0.26\paperheight)}]current page.center);
+    
+        \draw[color=-SpringGreen,line width=3pt] ([shift={(-0.25\paperwidth,0.1\paperheight)}]current page.center)--([shift={(0.25\paperwidth,0.1\paperheight)}]current page.center);  
+        \node[scale=2,font=\Huge,align=center,text=-SpringGreen] at ([yshift=0.18\paperheight]current page.center) {Ti\emph{k}Z\\[-10pt]$learn$};
+        \draw[color=-SpringGreen,line width=3pt] ([shift={(-0.25\paperwidth,0.04\paperheight)}]current page.center)--([shift={(0.25\paperwidth,0.04\paperheight)}]current page.center); 
+        \draw[color=-SpringGreen,line width=3pt] ([shift={(-0.25\paperwidth,-0.02\paperheight)}]current page.center)--([shift={(0.25\paperwidth,-0.02\paperheight)}]current page.center); 
+        \node[font=\Huge,text=-SpringGreen] at ([yshift=0.01\paperheight]current page.center) {$version:1.01$};
+        \node[font=\Huge,text=-SpringGreen] at ([yshift=0.07\paperheight]current page.center) {$author:ljguo$};
+        \node[opacity=0.8] at ([yshift=-0.25\paperheight]current page.center) {
+            \begin{tikzpicture}[scale=0.8]
+            \foreach \x in{0,10,...,350}
+            \draw[color=-SpringGreen,line width=0.03pt](\x:2)circle(2);   
+            \end{tikzpicture}};
+    \end{tikzpicture}
+\end{document}

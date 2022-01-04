@@ -1,0 +1,29 @@
+\documentclass[margin=10cm]{standalone}
+\usepackage{tikz}
+\pagecolor{black}
+\input{colors.tex}
+\ExplSyntaxOn
+\NewDocumentCommand{\helix}{ m m m}
+{
+    \draw[line~width=2pt,#2] #1+(0 \c_colon_str #3)--+(60 \c_colon_str #3)--+(120 \c_colon_str #3)--+(180 \c_colon_str #3)--+(240 \c_colon_str #3)--+(300 \c_colon_str #3)--cycle;
+    \draw[line~width=2pt,#2] #1+(10 \c_colon_str #3)--+(70 \c_colon_str #3)--+(130 \c_colon_str #3)--+(190 \c_colon_str #3)--+(250 \c_colon_str #3)--+(310 \c_colon_str #3)--cycle;
+    \draw[line~width=2pt,#2] #1+(20 \c_colon_str #3)--+(80 \c_colon_str #3)--+(140 \c_colon_str #3)--+(200 \c_colon_str #3)--+(260 \c_colon_str #3)--+(320 \c_colon_str #3)--cycle;
+    \draw[line~width=2pt,#2] #1+(30 \c_colon_str #3)--+(90 \c_colon_str #3)--+(150 \c_colon_str #3)--+(210 \c_colon_str #3)--+(270 \c_colon_str #3)--+(330 \c_colon_str #3)--cycle;   
+}
+\ExplSyntaxOff
+\begin{document}
+\ExplSyntaxOn
+\begin{tikzpicture}[x=0.1cm,y=0.1cm]  
+    \int_step_variable:nnnNn{0}{10}{1080} \i 
+        {   
+            \helix{(\i \c_colon_str 2+1*\i)}{\int_rand:nn{1}{20}}{0.15*\i}        
+        }
+\end{tikzpicture}
+\ExplSyntaxOff
+\end{document}
+\begin{tikzpicture}[x=20cm,y=20cm]
+    \int_step_variable:nnnNn{0}{10}{360} \i 
+     {   
+         \helix{(\i \c_colon_str {1-sin(\i)})}{\int_rand:nn{1}{20}}{0.15}        
+     } 
+\end{tikzpicture}

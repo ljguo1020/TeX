@@ -1,0 +1,102 @@
+\documentclass{ctexart}
+
+\setCJKmainfont{TW-MOE-Li}%设置字体，由于版权问题，请自行设置
+
+\usepackage{xcolor}
+%定义主颜色
+\definecolor{main}{RGB}{218 ,165 ,32}
+
+\usepackage{tikz} 
+% 使用tikz的shadow库，做出旗子的阴影效果
+\usetikzlibrary{shadows}
+%去掉页码
+\pagestyle{empty}
+
+% 定义一些命令，具体效果如下
+\newcommand{\key}[1]{
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(0.05,0.25)|- ++(0.2,-0.2);
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(-0.05,0.25)|- ++(-0.2,-0.2);
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(-0.05,-0.27)|- ++(-0.2,0.2);
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(0.05,-0.27)|- ++(0.2,0.2);
+       }
+
+\newcommand{\keyleft}[1]{
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(-0.05,0.25)|- ++(-0.2,-0.2);
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(-0.05,-0.27)|- ++(-0.2,0.2); 
+       }
+
+\newcommand{\keyright}[1]{
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(0.05,0.25)|- ++(0.2,-0.2);
+       \draw[line width=0.7pt,main!60!black] ([shift={(#1)}]O.north west)++(0.05,-0.27)|- ++(0.2,0.2);
+       }
+
+%  定义旗子，为了更具立体感，使用了shadow并填充渐变色
+
+\newcommand{\qizi}[2]{
+    \path[drop shadow={fill=black,opacity=0.5,shadow xshift=5pt,shadow yshift=-5pt},outer color=main!85!black,inner color=white] ([shift={(#1)}]O.north west)circle(0.6cm);
+    \path[fill=main,draw=main!60!black] ([shift={(#1)}]O.north west)circle(0.5cm);
+    \node[font=\huge\bfseries] at ([shift={(#1)}]O.north west) {#2};
+}
+
+\begin{document}
+\pagecolor{main}
+    \begin{tikzpicture}[remember picture,overlay]
+
+       %命名并填充整个节点
+       \node[fill=main,minimum width=10cm,minimum height=11cm,inner sep=0pt] (O)at (current page.center) {}; 
+      %画最外层矩形框
+       \draw[line width=3pt,main!50!black] ([shift={(0.8,0.8)}]O.south west) rectangle ([shift={(-0.8,-0.8)}]O.north east);
+      %画内层的矩形框
+       \draw[line width=1pt,main!60!black]([shift={(1,1)}]O.south west) rectangle ([shift={(-1,-1)}]O.north east);
+       %小方格
+       \foreach \x in{2,...,9}
+       \draw[line width=1pt,main!60!black] ([shift={(1,\x)}]O.south west)--++(8,0);
+
+       \foreach \y in{2,...,8}
+       \draw[line width=1pt,main!60!black] ([shift={(\y,1)}]O.south west)--++(0,4) ([shift={(\y,6)}]O.south west)--++(0,4);
+        %标记顶部的数字
+       \foreach \z in{1,...,9}
+       \node[scale=1.2,above=4pt] at ([shift={(\z,-1)}]O.north west) {\z};
+        %绘制四条对角线
+       \draw[line width=1pt,main!60!black]([shift={(4,-1)}]O.north west)--++(2,-2);
+
+       \draw[line width=1pt,main!60!black]([shift={(6,-1)}]O.north west)--++(-2,-2);
+
+       \draw[line width=1pt,main!60!black]([shift={(4,1)}]O.south west)--++(2,2);
+
+       \draw[line width=1pt,main!60!black]([shift={(6,1)}]O.south west)--++(-2,2);
+        
+   
+        %一些文字的填充
+       \node[font=\huge\bfseries,opacity=0.6,scale=0.7] at ([xshift=-2cm,yshift=-2pt]O.center) {楚河};
+
+       \node[font=\huge\bfseries,opacity=0.6,scale=0.7] at ([xshift=2cm,yshift=-2pt]O.center) {漢界};
+
+       \node[font=\huge\bfseries,scale=0.8] at ([yshift=1cm]O.center) {真羨慕那些有對象的人};
+
+       \node[font=\huge\bfseries,scale=0.8] at ([yshift=-1cm]O.center) {我除了帥一無所有};
+        % 旗子
+        \qizi{3,-1}{象}
+        \qizi{5,-1}{將}
+        \qizi{5,-3}{象}
+        \qizi{5,-10}{帥}
+        
+        \key{2,-3}
+        \key{8,-3}
+        \key{2,-8}
+        \key{8,-8}
+        \key{3,-4}
+        \key{5,-4}
+        \key{7,-4}
+        \key{3,-7}
+        \key{5,-7}
+        \key{7,-7}
+        \keyleft{9,-4}
+        \keyleft{9,-7}
+        \keyright{1,-4}
+        \keyright{1,-7}
+        
+       
+     
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,45 @@
+\usepackage{fontawesome5}
+\usepackage{graphicx}
+\usepackage{magicwatermark}
+\usepackage{tikzlings}
+\usepackage{geometry}
+\geometry{left=6.5cm,right=1cm,top=2cm,bottom=2cm}
+\PageSetup*
+{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[blue,line width = 1pt,rounded corners] ([shift={(0.15,0.15)}]current page.south west) rectangle ([shift={(-0.15,-0.15)}]current page.north east);
+        \node[shift={(0,1)},scale=1.2] at (current page.south){\thepage};
+        \node[scale=2,opacity=0.8]at (current page.center) {\includegraphics{rose.pdf}};
+    \end{tikzpicture}
+}
+\EvenPageSetup*
+{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[line width=1pt,blue,rounded corners] ([shift={(-0.5,2)}]current page.south east) rectangle +(-5.5,\paperheight -4cm);
+        \node[purple,scale=2,font=\bfseries] at ([shift={(-3.25,-3)}]current page.north east){\faIcon{music}\ 休闲一刻};
+        \node[scale=2,opacity=0.8]at ([shift={(-3.25,0)}]current page.east)
+         {
+             \begin{tikzpicture}
+                \bear[ bubblecolour=gray!30!white]
+             \end{tikzpicture}
+         };
+        \foreach \x in{0.15,0.18,...,0.9}
+        \draw[line width=1pt] ([shift={(-0.75,-\x*\paperheight)}]current page.north east)--++(-5,0);
+    \end{tikzpicture}
+}
+\OddPageSetup*
+{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[line width=1pt,blue,rounded corners] ([shift={(0.5,2)}]current page.south west) rectangle +(5.5,\paperheight -4cm);
+        \node[cyan,scale=2,font=\bfseries] at ([shift={(3.25,-3)}]current page.north west){\faIcon{pen-nib}\ 学习笔记};
+        \node[scale=2,opacity=0.8]at ([shift={(3.25,0)}]current page.west)
+         {
+             \begin{tikzpicture}
+                \elephant
+             \end{tikzpicture}
+         };
+        \foreach \x in{0.15,0.18,...,0.9}
+        \draw[line width=1pt] ([shift={(0.75,-\x*\paperheight)}]current page.north west)--++(5,0);
+    \end{tikzpicture}
+}
+\pagestyle{empty}

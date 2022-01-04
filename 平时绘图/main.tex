@@ -1,0 +1,24 @@
+\documentclass{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\definecolor{backn}{RGB}{127,0,255}
+\definecolor{frame}{RGB}{153,0,153}
+\colorlet{back}{backn!50!frame}
+\begin{document}
+    \begin{tikzpicture}
+        \tikzset{every node/.style={align=center,fill=back,line width=1pt,text=white,font=\bfseries,minimum height=4em}}
+        \tikzset{arrow/.style={-latex,line width=1pt}}
+        \node[minimum width=10em] (a) at (0,0) {绪论\\[-2pt](第一章)};
+        \node[minimum width=30em] (b) at ([yshift=-2.7cm]a) {战术导弹内外弹道一体化仿真建模\\[-2pt](第二章)};
+        \node[minimum width=18em] (c) at ([yshift=-2.7cm,xshift=-4.3cm]b){克里金代理模型\\[-2pt](第三章)};
+        \node[minimum width=18em] (d) at ([yshift=-2.7cm,xshift=4.3cm]b){一种改进的正弦余弦智能搜索算法\\[-2pt](第四章)};
+        \node[minimum width=30em] (e) at ([yshift=-8.1cm]a) {地地战术导弹内外弹道一体化总体优化设计\\[-2pt](第五章)};
+        \node[minimum width=10em] (f) at ([yshift=-2.7cm]e) {结论与展望\\[-2pt](第六章)};
+        \draw[arrow] (a.south)--(b.north);
+        \draw[arrow] ([xshift=-4.3cm]b.south)--(c.north);
+        \draw[arrow] ([xshift=4.3cm]b.south)--(d.north);
+        \draw[arrow] (c.south)--+(0,-1.18);
+        \draw[arrow] (d.south)--+(0,-1.18);
+        \draw[arrow] (e.south)--(f.north);
+    \end{tikzpicture}
+\end{document}

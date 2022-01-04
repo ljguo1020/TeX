@@ -1,0 +1,16 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\newcommand{\dfd}[3]
+{
+  \begin{tikzpicture}
+  \fill (#1) circle(1pt);
+  \draw [very thin] (#1)+(#2,0) arc[radius=#2cm,start angle=0,end angle=360] 
+  node foreach \t in {1,...,#3} [pos=\t/#3,label={[blue]360*\t/#3:{\footnotesize $M_{\t}$}}] {\tikz {\fill[red] circle(1pt);}};
+  \end{tikzpicture}
+}
+\begin{document}
+
+\dfd{0,0}{3}{5}
+\dfd{0,0}{8}{17}
+\dfd{0,0}{10}{30}
+\end{document}

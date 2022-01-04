@@ -1,0 +1,89 @@
+\documentclass{ctexart}
+\usepackage[margin=2cm]{geometry}
+\usepackage{listings,xcolor}
+\lstset{
+        language=[LaTeX]TeX,numbers=left,
+        numberstyle=\tiny,
+        basicstyle=\small\ttfamily,
+        stringstyle=\color{purple},
+        keywordstyle=\color{blue}\bfseries,
+        commentstyle=\color{olive},       
+        frame=shadowbox,      
+        rulesepcolor=\color{red!20!green!20!blue!20}
+       }
+\title{使用 \LaTeX3 实现冒泡排序}
+\author{ljguo1020@gmail.com}
+
+\ExplSyntaxOn
+\int_new:N \l_t_int
+\NewDocumentCommand{\sort}{m}
+{
+
+\intarray_const_from_clist:Nn \l_array_int {#1}                 
+\int_step_variable:nNn{\intarray_count:N \l_array_int} \i 
+{
+    \int_step_variable:nNn{\intarray_count:N \l_array_int-\i} \j 
+    {        
+        \int_compare:nT {\intarray_item:Nn \l_array_int{\j} > \intarray_item:Nn\l_array_int{\j+1}}
+        {  
+        \int_set_eq:NN \l_t_int \intarray_item:Nn \l_array_int{\j}   
+        \intarray_gset:Nnn  \l_array_int {\j}{\intarray_item:Nn \l_array_int{\j+1}}
+        \intarray_gset:Nnn  \l_array_int {\j+1}{\l_t_int}  
+        }
+    }
+}
+这些整数的由小到大的排序为：\int_step_inline:nn{\intarray_count:N \l_array_int}{\intarray_item:Nn\l_array_int {##1}~}
+\cs_undefine:N \l_array_int
+}
+\ExplSyntaxOff 
+\begin{document}
+    \maketitle
+学习 C 语言时学到了如下的冒泡排序法，于是用 \LaTeX3 改写了一下:
+\begin{lstlisting}{language=C}
+for(i=0;i<4;i++)
+{
+    for(j=0;j<4-i;j++)
+    {
+        if(a[j]>a[j+1])
+        {
+            t=a[j];
+            a[j]=a[j+1];
+            a[j+1]=t;
+        }
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}
+\ExplSyntaxOn
+\int_new:N \l_t_int
+\NewDocumentCommand{\sort}{m}
+{
+\intarray_const_from_clist:Nn \l_array_int {#1}                 
+\int_step_variable:nNn{\intarray_count:N \l_array_int} \i 
+{
+    \int_step_variable:nNn{\intarray_count:N \l_array_int-\i} \j 
+    {        
+        \int_compare:nT 
+        {\intarray_item:Nn \l_array_int{\j} > \intarray_item:Nn\l_array_int{\j+1}}
+        {  
+        \int_set_eq:NN \l_t_int \intarray_item:Nn \l_array_int{\j}   
+        \intarray_gset:Nnn  \l_array_int {\j}{\intarray_item:Nn \l_array_int{\j+1}}
+        \intarray_gset:Nnn  \l_array_int {\j+1}{\l_t_int}  
+        }
+    }
+}
+\int_step_inline:nn{\intarray_count:N\l_array_int}{\intarray_item:Nn\l_array_int {##1}~}
+\cs_undefine:N \l_array_int
+}
+\ExplSyntaxOff
+\end{lstlisting}
+\begin{lstlisting}
+\sort{15,4,12,5,45,5,6,15}\par 
+\sort{12,5,4,5,6,78,100,105}\par 
+\sort{42,0,-3,5,25,68}
+\end{lstlisting}
+
+\sort{15,4,12,5,45,5,6,15}\par 
+\sort{12,5,4,5,6,78,100,105}\par 
+\sort{42,0,-3,5,25,68}
+\end{document}

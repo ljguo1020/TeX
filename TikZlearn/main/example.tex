@@ -1,0 +1,118 @@
+\usepackage{minted}
+\setminted{formatcom=\xeCJKVerbAddon}
+\usepackage{sourcecodepro}
+\usepackage{mwe}
+\makeatletter
+\newlength\savefboxrule
+\newlength\savefboxsep
+\edef\example@name{\jobname-example.aux}
+\newenvironment{hexample}%
+{%
+\renewcommand{\minted@FVB@VerbatimOut}[1]{%
+  \@bsphack
+  \begingroup
+    \FV@DefineWhiteSpace
+    \def\FV@Space{\space}%
+    \FV@DefineTabOut
+    \let\FV@ProcessLine\minted@write@detok
+    \immediate\openout\FV@OutFile ##1\relax
+    \let\FV@FontScanPrep\relax
+    \let\@noligs\relax
+    \FV@Scan}
+\minted@FVB@VerbatimOut{\example@name}}%
+{\minted@FVE@VerbatimOut%
+  \trivlist\item\relax
+  \setlength{\savefboxrule}{\fboxrule}%
+  \setlength{\savefboxsep}{\fboxsep}%
+  \setlength{\fboxsep}{0.007\textwidth}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox[gray]{0}{0.95}{%
+    \begin{minipage}[c]{0.45\textwidth}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \small\inputminted[breakanywhere,breaklines=true,numbers=left]{latex}{\example@name}%
+    \end{minipage}%
+  }%
+  \hfill%
+  \fbox{%
+    \begin{minipage}[c]{0.45\textwidth}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \setlength{\parskip}{1ex plus 0.4ex minus 0.2ex}%
+      \centering
+      \normalsize\input{\example@name}%
+    \end{minipage}%
+  }%
+  \endtrivlist
+}
+\newenvironment{vexample}%
+{%
+\renewcommand{\minted@FVB@VerbatimOut}[1]{%
+  \@bsphack
+  \begingroup
+    \FV@DefineWhiteSpace
+    \def\FV@Space{\space}%
+    \FV@DefineTabOut
+    \let\FV@ProcessLine\minted@write@detok
+    \immediate\openout\FV@OutFile ##1\relax
+    \let\FV@FontScanPrep\relax
+    \let\@noligs\relax
+    \FV@Scan}
+\minted@FVB@VerbatimOut{\example@name}}%
+{\minted@FVE@VerbatimOut%
+  \trivlist\item\relax
+  \setlength{\savefboxrule}{\fboxrule}%
+  \setlength{\savefboxsep}{\fboxsep}%
+  \setlength{\fboxsep}{0.007\textwidth}%
+  \setlength{\fboxrule}{0.4pt}%
+  \begin{minipage}[c]{\textwidth}
+  \fcolorbox[gray]{0}{0.95}{%
+    \begin{minipage}[c]{\textwidth-0.03\textwidth-0.8pt}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \small\inputminted[breakanywhere,breaklines=true,numbers=left]{latex}{\example@name}%
+    \end{minipage}%
+  }\\
+  \fbox{%
+    \begin{minipage}[c]{\textwidth-0.03\textwidth-0.8pt}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \setlength{\parskip}{1ex plus 0.4ex minus 0.2ex}%
+      \centering
+      \normalsize\input{\example@name}%
+    \end{minipage}%
+  }%
+  \end{minipage}
+  \endtrivlist
+}
+\newenvironment{floatexample}%
+{%
+\renewcommand{\minted@FVB@VerbatimOut}[1]{%
+  \@bsphack
+  \begingroup
+    \FV@DefineWhiteSpace
+    \def\FV@Space{\space}%
+    \FV@DefineTabOut
+    \let\FV@ProcessLine\minted@write@detok
+    \immediate\openout\FV@OutFile ##1\relax
+    \let\FV@FontScanPrep\relax
+    \let\@noligs\relax
+    \FV@Scan}
+\minted@FVB@VerbatimOut{\example@name}}%
+{\minted@FVE@VerbatimOut%
+  \trivlist\item\relax
+  \setlength{\savefboxrule}{\fboxrule}%
+  \setlength{\savefboxsep}{\fboxsep}%
+  \setlength{\fboxsep}{0.007\textwidth}%
+  \setlength{\fboxrule}{0.4pt}%
+  \fcolorbox[gray]{0}{0.95}{%
+    \begin{minipage}[c]{\textwidth-0.03\textwidth-0.8pt}%
+      \setlength{\fboxrule}{\savefboxrule}%
+      \setlength{\fboxsep}{\savefboxsep}%
+      \small\inputminted[breakanywhere,breaklines=true,numbers=left]{latex}{\example@name}%
+    \end{minipage}%
+  }\par
+  \input{\example@name}%
+  \endtrivlist
+}
+\makeatother
