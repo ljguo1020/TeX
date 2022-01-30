@@ -1,0 +1,102 @@
+\documentclass{memory}
+
+\usepackage{listings,graphicx}
+\usepackage{xparse,expl3}
+\title{模板使用说明}
+\author{郭李军}
+\version{第一版}
+\begin{document}
+\maketitle
+\tableofcontents
+\setcounter{page}{1}
+\Watermark
+\EvenWatermark
+\OddWatermark
+\chapter{声明}
+\section{使用要求}
+\subsection{编译方式及系统版本}
+\snake{本模板需要使用xelatex编译}
+\snake[star]{需要texlive2021及以上版本,并且宏包需要更新到最新}
+\snake[triangle]{需要magicwatermark宏包,包含在此压缩包中}
+\subsection{字体}
+\snake[star]{模板内置使用了几款免费字体,包含在压缩包中,如果你的系统没有，则需要安装}
+\chapter{模板使用}
+\section{封面}
+封面需要预先设置\verb|\title|,\verb|\author|,\verb|\version|,然后使用\verb|\maketitle|输出封面 
+
+封面文字颜色可以通过\verb|\renewcommand{\covercolor}{...}|来修改,目录使用
+\begin{note}[style=school]
+    这个笔记用于展示效果,这是school样式，看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=5cm,style=mac]
+    这个笔记用于展示效果,这是mac样式，\color{cyan}看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=10cm,style=book]
+    这个笔记用于展示效果,这是book样式，\color{red}看起来好像还不错的样子。
+\end{note}
+
+\verb|\tableofcontents|命令输出
+
+封面图案可以使用\verb|\renewcommand{\logo}{...}|来修改
+\subsection{命令和环境}
+\snake{highlight}
+提供\verb+\highlight[]{}+来对文字进行\highlight{涂色高亮}显示,第一个是可选参数,接受一个颜色值,默认为magenta
+\snake[write]{note}
+提供note环境来向笔记栏写笔记 \verb|\begin{note}[] ... \end{note}|提供可选参数,目前仅仅设计了如下的参数值
+\begin{enumerate}
+    \item distance=<dim> 笔记默认以笔记栏的左上角为起点,需要使用此参数来调整位置
+    \item font = <> 设置笔记字体、字形及字体大小等
+    \item align =<left|center|right>设置笔记内容对其方式,默认左对齐
+    \item style = 用于显示笔记样式,目前包含以下几种
+    \begin{enumerate}
+        \item school
+        \item book
+        \item mac
+    \end{enumerate}
+\end{enumerate}
+\snake[star]{使用样例}
+\begin{lstlisting}
+\begin{note}[style=school]
+    这个笔记用于展示效果,这是school样式，看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=5cm,style=mac]
+    这个笔记用于展示效果,这是mac样式，看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=10cm,style=book]
+    这个笔记用于展示效果,这是book样式，看起来好像还不错的样子。
+\end{note}
+\end{lstlisting}
+\begin{note}[style=school]
+    这个笔记用于展示效果,这是school样式，看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=5cm,style=mac]
+    这个笔记用于展示效果,这是mac样式，看起来好像还不错的样子。
+\end{note}
+\begin{note}[distance=10cm,style=book]
+    这个笔记用于展示效果,这是book样式，看起来好像还不错的样子。
+\end{note}
+正如您右边笔记栏所见
+
+\snake[pen]{snake}
+该命令\verb|\snake[]{}|提供了一些类似于罗列环境的效果,为它定义了一个计数器snake,上级计数器为subsection,可选参数可以填入一些内容,预定义如下几种
+\begin{enumerate}
+    \item star  \textcolor{red}{\ding{77}}
+    \item pen   \textcolor{magenta}{\ding{49}}
+    \item triangle \textcolor{red}{\ding{115}}
+    \item write   \textcolor{cyan}{\ding{45}}
+\end{enumerate}
+\section{其它}
+\subsection{建议}
+本模板处于研发初期,bug 必然众多,更有许多功能未完善,希望大家有好的建议能够联系我,非常感谢您！
+\snake[star]{QQ:1123203930}
+\snake[pen]{wechat:17628192538}
+\snake[write]{email:1123203930@qq.com}
+\subsection{资助}
+最后,制作不易,如果此模板对您有帮助,或者您喜欢此模板,您可以自愿资助我
+\begin{center}
+\begin{tabular}{cc}
+    \includegraphics[scale=0.1]{wechat.jpg}\hspace*{3cm} & \includegraphics[scale=0.1]{zfb.jpg}
+\end{tabular}   
+\end{center}
+
+\end{document}
