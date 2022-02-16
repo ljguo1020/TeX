@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{expl3}
+\usepackage{tabularx,geometry}
+\geometry{margin=2cm}
+\begin{document}
+\ExplSyntaxOn
+\NewDocumentCommand{\test}{m}
+{
+  \clist_gset:Nn\l_tmpa_clist{#1}
+  \int_step_inline:nn{\clist_count:N \l_tmpa_clist}
+  {\clist_put_right:Nn\l_tmpb_clist{##1}}
+  \begin{tabularx}{\fp_eval:n{1.5*{\clist_count:N \l_tmpa_clist}}cm}
+    {|*{\clist_count:N \l_tmpa_clist}{>{\centering\arraybackslash}X|}}
+    \hline
+    \clist_use:Nn\l_tmpb_clist{&}\\ \hline
+    \clist_use:Nn\l_tmpa_clist{&}\\ \hline
+  \end{tabularx} 
+  \clist_clear:N\l_tmpa_clist
+  \clist_clear:N\l_tmpb_clist
+}
+\ExplSyntaxOff
+\test{A,B,B,C,D,C}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,C}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,C,B}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,A,C,AD}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,C,B,DB,AC}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,C,B,DB,ABC}
+
+\vspace*{1cm}
+
+\test{A,B,B,B,D,D,C,B,D,A,A,B}
+\end{document}
