@@ -1,0 +1,187 @@
+\documentclass{ctexart}
+\usepackage{choice-box}
+\begin{document}
+\begin{minipage}[t]{0.4\textwidth}
+我喜欢？
+\begin{test}[colorlist ={ blue,red,yellow,cyan,black},vsep = 10pt]
+	\item 抽烟
+	\item* 喝酒
+	\item  蹦迪
+	\item  赌博
+	\item* 美女
+\end{test}	
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+我喜欢？
+\begin{test}[color = blue]
+	\item 吃饭
+	\item 睡觉
+	\item* 玩手机
+	\item* \LaTeX 
+	\item* 编程
+	\item* 算法
+\end{test}	
+\end{minipage}
+\begin{test}[colorlist={green,cyan,red,blue,red,yellow,red}]
+	\item*熬夜 
+	\item 玩游戏
+	\item* 打羽毛球 
+	\item* LaTeX
+	\item* 听歌
+	\item 学习
+	\item* 熬夜玩游戏
+  \end{test} 
+\begin{test}[parsep = 1cm,colorlist={pink,brown,orange,magenta,purple,tan,gray}]
+	\item*熬夜 
+	\item 玩游戏
+	\item* 打羽毛球 
+	\item* LaTeX
+	\item* 听歌
+	\item 学习
+	\item* 熬夜玩游戏
+\end{test}
+
+\end{document}
+
+
+
+
+
+
+
+
+\documentclass{ctexart}
+\usepackage{l3draw,expl3,xparse}
+\usepackage[margin=0.5in, top=0.6in, right=0.6in]{geometry}
+\ExplSyntaxOn
+\coffin_new:N \__label_coffin
+\coffin_new:N \__content_coffin
+\dim_zero_new:N \__vsep_dim
+\dim_zero_new:N \__parsep_dim
+\dim_zero_new:N \__parindent_dim
+\dim_set_eq:NN \__parindent_dim \parindent
+\tl_new:N \__item_tl
+\cs_generate_variant:Nn \vcoffin_set:Nnn{Nnx}
+\cs_new_protected:Npn \__item_label: 
+{
+	\par 
+	\int_compare:nF{\__item_int = \c_zero_int}
+	{
+		\__item_content:
+	}
+	\int_incr:N \__item_int
+  \vcoffin_set:Nnx \__label_coffin {1cm}{\__item_tl}
+	\vcoffin_set:Nnw \__content_coffin {\textwidth - \__parsep_dim - 2cm}
+}
+\cs_new_protected:Npn \__item_content:
+{
+	\vcoffin_set_end:
+	\coffin_join:NnnNnnnn \__label_coffin{T}{r}\__content_coffin{T}{l}{-10pt}{0pt}
+	\coffin_typeset:Nnnnn \__label_coffin{B}{l}{\__parsep_dim}{\__vsep_dim}
+	\par 
+}
+    \int_zero_new:N \__item_int
+    \cs_generate_variant:Nn\color_fill:n{x}
+    \cs_generate_variant:Nn\color_select:n{x}
+\cs_new:Npn \__item_true_label:
+{
+	\draw_begin:
+	\draw_baseline:n{0.5ex}
+	\draw_path_rectangle:nn{0,0}{0.4cm,0.4cm}
+	\color_fill:x{\__color_tl}
+	\draw_path_use:n{fill}
+	\draw_scope_begin:
+	\draw_cap_round:
+	\draw_join_round:
+	\color_select:n{white}
+	\draw_path_moveto:n{0.1cm,0.21cm}
+	\draw_path_lineto:n{0.18cm,0.08cm}
+	\draw_path_lineto:n{0.32cm,0.32cm}
+	\draw_linewidth:n{1pt}
+	\draw_path_use:n{stroke}
+	\draw_scope_end:
+	\draw_end:
+}
+\cs_new:Npn \__item_false_label:
+{
+	\draw_begin:
+	\draw_baseline:n{0.5ex}
+	\draw_linewidth:n{0.8pt}
+	\draw_path_rectangle:nn{0,0}{0.4cm,0.4cm}
+	\color_select:x{\__color_tl}
+	\draw_path_use:n{stroke}
+	\draw_end:
+}
+    \keys_define:nn{test}
+    {
+        colorlist.clist_set:N = \__color_clist, 
+				vsep.dim_set:N = \__vsep_dim,
+				vsep.initial:n = 1pt,  
+				parsep.dim_set:N = \__parsep_dim,
+				parsep.initial:n = \__parindent_dim,
+				color.str_set:N = \__color_str,
+				color.initial:n = black
+    }
+ 
+		\NewDocumentEnvironment{test}{O{}}
+		{
+			\group_begin: 
+			\dim_set:Nn \parindent{0pt}
+			\int_zero:N \__item_int        
+			\keys_set:nn{test}{#1}
+			\seq_set_from_clist:NN \__color_seq \__color_clist  
+			\clist_if_empty:NTF \__color_clist
+			{
+				\tl_set:Nn\__color_tl
+				{\__color_str}
+			}
+			{
+				\tl_set:Nn\__color_tl {\clist_item:Nn\__color_clist{\__item_int}}
+			}     
+			\RenewDocumentCommand{\item}{s}
+				{           
+						\IfBooleanTF{##1}
+						{
+								\tl_gset:Nn \__item_tl
+								{\__item_true_label:}
+						}
+						{
+							\tl_gset:Nn \__item_tl
+							{
+								\__item_false_label:
+							} 
+						}
+						\__item_label:					
+				}          
+		}
+		{
+			\__item_content:
+			\group_end:
+		}
+\ExplSyntaxOff
+
+\begin{document}
+\ExplSyntaxOn
+ 是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首
+\begin{test}[colorlist={green,cyan,red,blue,red,yellow,red},vsep=10pt]
+    \item* 熬夜 
+		\item 熬夜是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首
+		\item* 熬夜是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首
+		\item dgh gf
+		\item* sjdgf
+		\item* sdh  
+\end{test}
+熬夜是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首是打飞机过段时间是看得见割发代首
+\begin{test}[color = blue,parsep = 10cm]
+	\item* dsf d
+	\item  fsdf
+	\item  sdf
+\end{test}
+\ExplSyntaxOff
+    
+
+
+
+    
+\end{document}
+

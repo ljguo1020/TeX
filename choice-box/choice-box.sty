@@ -1,0 +1,137 @@
+\NeedsTeXFormat {LaTeX2e}[2020/10/01]
+\ProvidesPackage {choice-box}[2022/02/21 v1.0.0 for ljguo ]
+\RequirePackage {l3draw}
+\ExplSyntaxOn
+
+\coffin_new:N \__label_coffin
+\coffin_new:N \__content_coffin
+\dim_zero_new:N \__vsep_dim
+\dim_zero_new:N \__parsep_dim
+\dim_zero_new:N \__parindent_dim
+\dim_set_eq:NN \__parindent_dim \parindent
+\tl_new:N \__item_tl
+\cs_generate_variant:Nn \vcoffin_set:Nnn{Nnx}
+\int_zero_new:N \__item_int
+\cs_generate_variant:Nn\color_fill:n{x}
+\cs_generate_variant:Nn\color_select:n{x}
+
+\cs_new:Npn \__item_true_label:
+{
+  \draw_begin:
+  \draw_baseline:n{0.5ex}
+  \draw_path_rectangle:nn{0,0}{0.4cm,0.4cm}
+  \color_fill:x{\__color_tl}
+  \draw_path_use:n{fill}
+  \draw_scope_begin:
+  \draw_cap_round:
+  \draw_join_round:
+  \color_select:n{white}
+  \draw_path_moveto:n{0.1cm,0.21cm}
+  \draw_path_lineto:n{0.18cm,0.08cm}
+  \draw_path_lineto:n{0.32cm,0.32cm}
+  \draw_linewidth:n{1pt}
+  \draw_path_use:n{stroke}
+  \draw_scope_end:
+  \draw_end:
+}
+
+\cs_new:Npn \__item_false_label:
+{
+  \draw_begin:
+  \draw_baseline:n{0.5ex}
+  \draw_linewidth:n{0.8pt}
+  \draw_path_rectangle:nn{0,0}{0.4cm,0.4cm}
+  \color_select:x{\__color_tl}
+  \draw_path_use:n{stroke}
+  \draw_end:
+}
+
+\cs_new_protected:Npn \__item_label: 
+{
+  \par
+  \int_compare:nF{\__item_int = \c_zero_int}
+  {
+	\__item_content:
+  }
+  \int_incr:N \__item_int
+  \vcoffin_set:Nnx \__label_coffin {1cm}{\__item_tl}
+  \vcoffin_set:Nnw \__content_coffin {\textwidth - \__parsep_dim - 2cm}
+}
+
+\cs_new_protected:Npn \__item_content:
+{
+  \vcoffin_set_end:
+  \coffin_join:NnnNnnnn \__label_coffin{T}{r}\__content_coffin{T}{l}{-10pt}{0pt}
+  \coffin_typeset:Nnnnn \__label_coffin{B}{l}{\__parsep_dim}{\__vsep_dim}
+  \par 
+}
+
+\keys_define:nn{test}
+{
+  colorlist.clist_set:N = \__color_clist, % 用于设置颜色列表
+  vsep.dim_set:N = \__vsep_dim, % 控制每个条目的垂直间距
+  vsep.initial:n = 1pt, % 设置初始值
+  parsep.dim_set:N = \__parsep_dim, % 控制每个条目整体水平的偏移量
+  parsep.initial:n = \__parindent_dim, % 设置初始值
+  color.str_set:N = \__color_str, % 用于设置单个颜色
+  color.initial:n = black % 设置初始值
+}
+
+\NewDocumentEnvironment{test}{O{}}
+{
+  \group_begin: 
+  \dim_set:Nn \parindent{0pt}
+  \int_zero:N \__item_int        
+  \keys_set:nn{test}{#1}
+  \seq_set_from_clist:NN \__color_seq \__color_clist  
+  \clist_if_empty:NTF \__color_clist
+  {
+	\tl_set:Nn\__color_tl
+    {\__color_str}
+  }
+  {
+	\tl_set:Nn\__color_tl {\clist_item:Nn\__color_clist{\__item_int}}
+  }     
+  \RenewDocumentCommand{\item}{sO{}}
+  {           
+    \IfBooleanTF{##1}
+    {
+      \tl_gset:Nn \__item_tl
+      {\__item_true_label:}
+	  }
+	  {
+	    \tl_gset:Nn \__item_tl
+	    {
+		  \__item_false_label:
+	    } 
+	  }	
+	\__item_label:					
+  }          
+}
+{
+  \__item_content:
+  \group_end:
+}
+
+%%%%%========define some colors=======%%%%%%
+\cs_set:Npn \choice_box_color_set:nn #1#2
+{
+    \color_set:nnn{#1}{RGB}{#2}
+}
+\clist_map_inline:nn
+{
+    {pink}     {255,192,203},
+    {brown}    {165,42,42},
+    {orange}   {255,165,0},
+    {magenta}  {255,0,255},
+    {purple}   {160,32,240},
+    {tan}      {255,165,79},
+    {gray}     {130,130,130}
+}
+{
+  \choice_box_color_set:nn #1 
+}
+
+\ExplSyntaxOff
+
+\endinput
